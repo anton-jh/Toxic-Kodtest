@@ -1,4 +1,5 @@
 ﻿using RestaurantChooser.Domain.Ids;
+using RestaurantChooser.Domain.ValueObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,7 +20,7 @@ public class Tag : EntityBase<TagId>
     /// Creates a new tag with a unique id.
     /// </summary>
     /// <param name="name">The name of the tag.</param>
-    public Tag(string name)
+    public Tag(EntityName name)
     {
         Name = name;
 
@@ -30,7 +31,7 @@ public class Tag : EntityBase<TagId>
     /// <summary>
     /// The name of this tag.
     /// </summary>
-    public string Name { get; }
+    public EntityName Name { get; private set; }
 
     /// <summary>
     /// All the restaurants that are tagged with this tag.
