@@ -33,17 +33,17 @@ public class OpeningHoursDay
     /// <summary>
     /// The day of the week this object represents.
     /// </summary>
-    public DayOfWeek DayOfWeek { get; }
+    public DayOfWeek DayOfWeek { get; private set; }
 
     /// <summary>
     /// Opening time.
     /// </summary>
-    public TimeOnly OpeningTime { get; }
+    public TimeOnly OpeningTime { get; private set; }
 
     /// <summary>
     /// Closing time.
     /// </summary>
-    public TimeOnly ClosingTime { get; }
+    public TimeOnly ClosingTime { get; private set; }
 
 
     public override bool Equals(object? obj)
