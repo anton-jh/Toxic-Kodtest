@@ -13,6 +13,12 @@ using ValueOf;
 namespace RestaurantChooser.Data;
 public class ApplicationDbContext : DbContext
 {
+    public ApplicationDbContext(DbContextOptions options)
+        : base(options)
+    {
+    }
+
+
     protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
     {
         #region ValueConverters
@@ -35,4 +41,7 @@ public class ApplicationDbContext : DbContext
     {
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
     }
+
+
+    public DbSet<Restaurant> Restaurants { get; private set; } = null!;
 }

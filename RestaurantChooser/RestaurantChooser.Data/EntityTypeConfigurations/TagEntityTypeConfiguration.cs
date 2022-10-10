@@ -4,21 +4,14 @@ using RestaurantChooser.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace RestaurantChooser.Data.EntityTypeConfigurations;
-internal class RestaurantEntityTypeConfiguration : IEntityTypeConfiguration<Restaurant>
+internal class TagEntityTypeConfiguration : IEntityTypeConfiguration<Tag>
 {
-    public void Configure(EntityTypeBuilder<Restaurant> builder)
+    public void Configure(EntityTypeBuilder<Tag> builder)
     {
         builder.HasKey(x => x.Id);
-
-        builder.OwnsMany(x => x.OpeningHours);
-
-        builder
-            .HasMany(x => x.Tags)
-            .WithMany(x => x.Restaurants);
     }
 }
