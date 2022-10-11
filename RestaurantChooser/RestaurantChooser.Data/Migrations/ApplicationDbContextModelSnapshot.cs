@@ -42,7 +42,7 @@ namespace RestaurantChooser.Data.Migrations
 
                     b.HasKey("Name");
 
-                    b.ToTable("Tag");
+                    b.ToTable("Tags");
                 });
 
             modelBuilder.Entity("RestaurantTag", b =>

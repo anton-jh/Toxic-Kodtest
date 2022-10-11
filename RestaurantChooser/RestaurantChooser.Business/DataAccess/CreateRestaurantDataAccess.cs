@@ -30,4 +30,9 @@ public class CreateRestaurantDataAccess : ICreateRestaurantDataAccess
     {
         return _dbContext.Restaurants.Any(x => x.Name == name);
     }
+
+    public IEnumerable<Tag> GetTags()
+    {
+        return _dbContext.Tags;
+    }
 }

@@ -44,4 +44,5 @@ public class ApplicationDbContext : DbContext
 
 
     public DbSet<Restaurant> Restaurants { get; private set; } = null!;
+    public DbSet<Tag> Tags { get; private set; } = null!;
 }

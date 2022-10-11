@@ -23,14 +23,14 @@ namespace RestaurantChooser.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Tag",
+                name: "Tags",
                 columns: table => new
                 {
                     Name = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Tag", x => x.Name);
+                    table.PrimaryKey("PK_Tags", x => x.Name);
                 });
 
             migrationBuilder.CreateTable(
@@ -72,9 +72,9 @@ namespace RestaurantChooser.Data.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_RestaurantTag_Tag_TagsName",
+                        name: "FK_RestaurantTag_Tags_TagsName",
                         column: x => x.TagsName,
-                        principalTable: "Tag",
+                        principalTable: "Tags",
                         principalColumn: "Name",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -102,7 +102,7 @@ namespace RestaurantChooser.Data.Migrations
                 name: "Restaurants");
 
             migrationBuilder.DropTable(
-                name: "Tag");
+                name: "Tags");
         }
     }
 }

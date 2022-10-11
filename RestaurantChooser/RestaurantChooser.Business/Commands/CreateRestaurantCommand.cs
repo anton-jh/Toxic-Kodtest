@@ -25,7 +25,9 @@ public class CreateRestaurantCommand : ICreateRestaurantCommand
     {
         EnsureNameIsNotTaken(name);
 
-        Restaurant restaurant = new(name, address, openingHours, tags);
+        IEnumerable<Tag> mergedTags = MergeTagsWithExisting(tags);
+
+        Restaurant restaurant = new(name, address, openingHours, mergedTags);
 
         _dataAccess.AddAndSaveChanges(restaurant);
 
@@ -38,6 +40,23 @@ public class CreateRestaurantCommand : ICreateRestaurantCommand
         if (_dataAccess.IsNameTaken(name))
         {
             throw new NameTakenException(name);
+        }
+    }
+
+    private IEnumerable<Tag> MergeTagsWithExisting(IEnumerable<Tag> tags)
+    {
+        IEnumerable<Tag> existingTags = _dataAccess.GetTags();
+
+        foreach (Tag newTag in tags)
+        {
+            if (existingTags.FirstOrDefault(x => x.Name == newTag.Name) is Tag existingTag)
+            {
+                yield return existingTag;
+            }
+            else
+            {
+                yield return newTag;
+            }
         }
     }
 }
