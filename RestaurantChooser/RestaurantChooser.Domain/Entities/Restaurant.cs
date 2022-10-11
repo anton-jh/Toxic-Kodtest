@@ -49,6 +49,12 @@ public class Restaurant : LazyLoadingEntityBase
     /// </summary>
     public RestaurantId Id => _id ?? throw new EntityNotAttachedException();
 
+
+    /// <summary>
+    /// The number of times this restaurant has been randomly picked.
+    /// </summary>
+    public PickFrequency PickFrequency { get; private set; } = PickFrequency.From(0);
+
     /// <summary>
     /// The name of the restaurant.
     /// </summary>
@@ -75,6 +81,11 @@ public class Restaurant : LazyLoadingEntityBase
         Name = name;
     }
 
+
+    public void IncrementPickFrequency()
+    {
+        PickFrequency = PickFrequency.Increment();
+    }
 
     /// <summary>
     /// Associates an existing tag with this restaurant.

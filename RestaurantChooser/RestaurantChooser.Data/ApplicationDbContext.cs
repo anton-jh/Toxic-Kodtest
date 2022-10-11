@@ -34,6 +34,7 @@ public class ApplicationDbContext : DbContext
         AddValueOfConverter<TagId, Guid>();
         AddValueOfConverter<Address, string>();
         AddValueOfConverter<EntityName, string>();
+        AddValueOfConverter<PickFrequency, int>();
         #endregion
     }
 

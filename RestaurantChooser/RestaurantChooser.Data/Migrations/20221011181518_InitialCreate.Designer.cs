@@ -11,7 +11,7 @@ using RestaurantChooser.Data;
 namespace RestaurantChooser.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221011173039_InitialCreate")]
+    [Migration("20221011181518_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -31,6 +31,9 @@ namespace RestaurantChooser.Data.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("TEXT");
+
+                    b.Property<int>("PickFrequency")
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 

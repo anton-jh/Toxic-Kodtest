@@ -10,6 +10,7 @@ IDbConfig dbConfig = new DefaultDbConfig();
 builder.Services.AddSqlite<ApplicationDbContext>(dbConfig.ConnectionString);
 
 builder.Services.FromEndpointDefinitions<RestaurantEndpointDefinitions>();
+builder.Services.FromEndpointDefinitions<RestaurantOfTheDayEnpointDefinitions>();
 
 
 var app = builder.Build();
@@ -17,6 +18,7 @@ var app = builder.Build();
 InitDatabase();
 
 app.FromEndpointDefinitions<RestaurantEndpointDefinitions>();
+app.FromEndpointDefinitions<RestaurantOfTheDayEnpointDefinitions>();
 
 
 app.Run();
