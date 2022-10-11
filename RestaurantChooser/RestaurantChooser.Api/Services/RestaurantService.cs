@@ -29,12 +29,16 @@ public class RestaurantService : IRestaurantService
     public IEnumerable<RestaurantResponse> GetAll()
     {
         return
-            from Restaurant rest in _dbContext.Restaurants
+            from Restaurant restaurant in _dbContext.Restaurants
             select new RestaurantResponse(
-                rest.Id.Value,
-                rest.Name.Value,
-                rest.Address.Value,
-                from Tag tag in rest.Tags select tag.Name);
+                restaurant.Id.Value,
+                restaurant.Name.Value,
+                restaurant.Address.Value,
+                from Tag tag in restaurant.Tags select tag.Name,
+                from OpeningHoursDay hours in restaurant.OpeningHours select new OpeningHoursResponse(
+                    hours.DayOfWeek,
+                    hours.OpeningTime,
+                    hours.ClosingTime));
     }
 
     public CreateRestaurantResponse Create(CreateRestaurantInput input)

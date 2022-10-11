@@ -5,12 +5,13 @@ namespace RestaurantChooser.Api.Model;
 
 public class RestaurantResponse
 {
-    public RestaurantResponse(Guid id, string name, string address, IEnumerable<string> tags)
+    public RestaurantResponse(Guid id, string name, string address, IEnumerable<string> tags, IEnumerable<OpeningHoursResponse> openingHours)
     {
         Id = id;
         Name = name;
         Address = address;
         Tags = tags;
+        OpeningHours = openingHours;
     }
 
 
@@ -18,4 +19,5 @@ public class RestaurantResponse
     public string Name { get; }
     public string Address { get; }
     public IEnumerable<string> Tags { get; }
+    public IEnumerable<OpeningHoursResponse> OpeningHours { get; }
 }

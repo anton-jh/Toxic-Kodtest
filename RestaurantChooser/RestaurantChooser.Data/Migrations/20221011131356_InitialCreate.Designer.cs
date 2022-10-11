@@ -11,7 +11,7 @@ using RestaurantChooser.Data;
 namespace RestaurantChooser.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221011125813_InitialCreate")]
+    [Migration("20221011131356_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -44,7 +44,7 @@ namespace RestaurantChooser.Data.Migrations
 
                     b.HasKey("Name");
 
-                    b.ToTable("Tags");
+                    b.ToTable("Tag");
                 });
 
             modelBuilder.Entity("RestaurantTag", b =>
