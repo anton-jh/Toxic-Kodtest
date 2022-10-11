@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\RestaurantChooser.Business\RestaurantChooser.Business.csproj" />
     <ProjectReference Include="..\RestaurantChooser.Data\RestaurantChooser.Data.csproj" />
   </ItemGroup>
 

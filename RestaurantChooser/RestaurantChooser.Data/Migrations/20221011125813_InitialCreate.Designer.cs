@@ -11,7 +11,7 @@ using RestaurantChooser.Data;
 namespace RestaurantChooser.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221010141036_InitialCreate")]
+    [Migration("20221011125813_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -39,16 +39,12 @@ namespace RestaurantChooser.Data.Migrations
 
             modelBuilder.Entity("RestaurantChooser.Domain.Entities.Tag", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("TEXT");
-
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.HasKey("Id");
+                    b.HasKey("Name");
 
-                    b.ToTable("Tag");
+                    b.ToTable("Tags");
                 });
 
             modelBuilder.Entity("RestaurantTag", b =>
@@ -56,12 +52,12 @@ namespace RestaurantChooser.Data.Migrations
                     b.Property<Guid>("RestaurantsId")
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid>("TagsId")
+                    b.Property<string>("TagsName")
                         .HasColumnType("TEXT");
 
-                    b.HasKey("RestaurantsId", "TagsId");
+                    b.HasKey("RestaurantsId", "TagsName");
 
-                    b.HasIndex("TagsId");
+                    b.HasIndex("TagsName");
 
                     b.ToTable("RestaurantTag");
                 });
@@ -70,9 +66,6 @@ namespace RestaurantChooser.Data.Migrations
                 {
                     b.OwnsMany("RestaurantChooser.Domain.ValueObjects.OpeningHoursDay", "OpeningHours", b1 =>
                         {
-                            b1.Property<Guid>("RestaurantId")
-                                .HasColumnType("TEXT");
-
                             b1.Property<int>("Id")
                                 .ValueGeneratedOnAdd()
                                 .HasColumnType("INTEGER");
@@ -86,7 +79,12 @@ namespace RestaurantChooser.Data.Migrations
                             b1.Property<TimeOnly>("OpeningTime")
                                 .HasColumnType("TEXT");
 
-                            b1.HasKey("RestaurantId", "Id");
+                            b1.Property<Guid>("RestaurantId")
+                                .HasColumnType("TEXT");
+
+                            b1.HasKey("Id");
+
+                            b1.HasIndex("RestaurantId");
 
                             b1.ToTable("OpeningHoursDay");
 
@@ -107,7 +105,7 @@ namespace RestaurantChooser.Data.Migrations
 
                     b.HasOne("RestaurantChooser.Domain.Entities.Tag", null)
                         .WithMany()
-                        .HasForeignKey("TagsId")
+                        .HasForeignKey("TagsName")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
