@@ -14,7 +14,7 @@ internal class RestaurantEndpointDefinitions : IEndpointDefinitions
 {
     public IEndpointDefinitions MapEndpoints(WebApplication app)
     {
-        app.MapPost("/restaurants/create", Create);
+        app.MapPost("/restaurants/", Create);
         app.MapGet("/restaurants/{id}", GetById);
         app.MapGet("/restaurants/", GetAll);
 
