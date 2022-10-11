@@ -12,6 +12,6 @@ internal class TagEntityTypeConfiguration : IEntityTypeConfiguration<Tag>
 {
     public void Configure(EntityTypeBuilder<Tag> builder)
     {
-        builder.HasKey(x => x.Id);
+        builder.HasKey(x => x.Name);
     }
 }
