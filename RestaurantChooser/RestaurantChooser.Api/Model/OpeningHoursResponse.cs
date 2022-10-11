@@ -1,14 +1,15 @@
-﻿using System.Text.Json.Serialization;
+﻿using RestaurantChooser.Domain.ValueObjects;
+using System.Text.Json.Serialization;
 
 namespace RestaurantChooser.Api.Model;
 
 public class OpeningHoursResponse
 {
-    public OpeningHoursResponse(DayOfWeek dayOfWeek, TimeOnly openingTime, TimeOnly closingTime)
+    public OpeningHoursResponse(OpeningHoursDay hours)
     {
-        DayOfWeek = dayOfWeek.ToString();
-        OpeningTime = openingTime.ToString();
-        ClosingTime = closingTime.ToString();
+        DayOfWeek = hours.DayOfWeek.ToString();
+        OpeningTime = hours.OpeningTime.ToString();
+        ClosingTime = hours.ClosingTime.ToString();
     }
 
     public string DayOfWeek { get; }

@@ -5,13 +5,15 @@ namespace RestaurantChooser.Api.Model;
 
 public class RestaurantResponse
 {
-    public RestaurantResponse(Guid id, string name, string address, IEnumerable<string> tags, IEnumerable<OpeningHoursResponse> openingHours)
+    public RestaurantResponse(Restaurant restaurant)
     {
-        Id = id;
-        Name = name;
-        Address = address;
-        Tags = tags;
-        OpeningHours = openingHours;
+        Id = restaurant.Id.Value;
+        Name = restaurant.Name.Value;
+        Address = restaurant.Address.Value;
+        Tags = from Tag tag in restaurant.Tags
+               select tag.Name;
+        OpeningHours = from OpeningHoursDay hours in restaurant.OpeningHours
+                       select new OpeningHoursResponse(hours);
     }
 
 
