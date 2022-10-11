@@ -28,9 +28,6 @@ public abstract class LazyLoadingEntityBase
         [CallerMemberName] string navigationName = null!)
         where TRelated : class?
     {
-        // This is just to get rid of a warning about the navigation field never being assigned any value
-        navigationField = null;
-
         // Throw if the LazyLoader has not been set by EF (an effect of the entity not being attached to a context)
         if (LazyLoader is null)
         {
