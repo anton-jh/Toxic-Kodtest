@@ -29,6 +29,8 @@ public class CreateRestaurantCommand : ICreateRestaurantCommand
 
         Restaurant restaurant = new(name, address, openingHours, mergedTags);
 
+        ResetAllPickFrequencies();
+
         _dataAccess.AddAndSaveChanges(restaurant);
 
         return restaurant.Id;
@@ -57,6 +59,14 @@ public class CreateRestaurantCommand : ICreateRestaurantCommand
             {
                 yield return newTag;
             }
+        }
+    }
+
+    private void ResetAllPickFrequencies()
+    {
+        foreach (Restaurant restaurant in _dataAccess.GetAll())
+        {
+            restaurant.ResetPickFrequency();
         }
     }
 }

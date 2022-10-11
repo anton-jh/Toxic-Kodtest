@@ -82,9 +82,20 @@ public class Restaurant : LazyLoadingEntityBase
     }
 
 
+    /// <summary>
+    /// Increment pick frequency by one.
+    /// </summary>
     public void IncrementPickFrequency()
     {
         PickFrequency = PickFrequency.Increment();
+    }
+
+    /// <summary>
+    /// Reset pick frequency.
+    /// </summary>
+    public void ResetPickFrequency()
+    {
+        PickFrequency = PickFrequency.From(0);
     }
 
     /// <summary>

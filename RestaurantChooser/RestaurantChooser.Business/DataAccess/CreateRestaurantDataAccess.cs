@@ -35,4 +35,9 @@ public class CreateRestaurantDataAccess : ICreateRestaurantDataAccess
     {
         return _dbContext.Tags;
     }
+
+    public IEnumerable<Restaurant> GetAll()
+    {
+        return _dbContext.Restaurants;
+    }
 }
