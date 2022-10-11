@@ -11,21 +11,43 @@ namespace RestaurantChooser.Domain.Entities;
 /// <summary>
 /// A restaurant.
 /// </summary>
-public class Restaurant : EntityBase<RestaurantId>
+public class Restaurant : LazyLoadingEntityBase
 {
-    private HashSet<Tag>? _tags;
+    private RestaurantId? _id;
     private HashSet<OpeningHoursDay>? _openingHours;
+    private HashSet<Tag>? _tags;
 
 
     /// <summary>
     /// Creates a new restaurant with a new unique id.
     /// </summary>
     /// <param name="name">The name of the restaurant.</param>
-    public Restaurant(EntityName name, Address address)
+    public Restaurant(EntityName name, Address address, IEnumerable<OpeningHoursDay> openingHours, IEnumerable<Tag> tags)
+    {
+        _id = RestaurantId.From(Guid.NewGuid());
+        Name = name;
+        Address = address;
+
+        EnsureValidOpeningHours(Array.Empty<OpeningHoursDay>(), openingHours);
+        _openingHours = new(openingHours);
+
+        _tags = new(tags);
+    }
+
+    /// <summary>
+    /// Private constructor for EF Core
+    /// </summary>
+    private Restaurant(EntityName name, Address address)
     {
         Name = name;
         Address = address;
     }
+
+
+    /// <summary>
+    /// The unique id of the restaurant.
+    /// </summary>
+    public RestaurantId Id => _id ?? throw new EntityNotAttachedException();
 
     /// <summary>
     /// The name of the restaurant.
@@ -67,9 +89,9 @@ public class Restaurant : EntityBase<RestaurantId>
     /// Removes the association between the tag and this restaurant.
     /// </summary>
     /// <param name="tagId"></param>
-    public void RemoveTag(TagId tagId)
+    public void RemoveTag(Tag tag)
     {
-        Actual(Tags).RemoveWhere(tag => tag.Id == tagId);
+        Actual(Tags).Remove(tag);
     }
 
 
@@ -79,13 +101,9 @@ public class Restaurant : EntityBase<RestaurantId>
     /// <param name="hours"></param>
     public void AddOpeningHours(OpeningHoursDay hours)
     {
-        foreach (OpeningHoursDay otherHours in Actual(OpeningHours))
-        {
-            if (OpeningHoursDay.Overlaps(hours, otherHours))
-            {
-                throw new DomainValidationException("The hours overlap with the existing hours for this day.");
-            }
-        }
+        EnsureValidOpeningHours(Actual(OpeningHours), new [] {hours});
+
+        Actual(OpeningHours).Add(hours);
     }
 
 
@@ -96,5 +114,20 @@ public class Restaurant : EntityBase<RestaurantId>
     public void RemoveOpeningPeriod(OpeningHoursDay hours)
     {
         Actual(OpeningHours).Remove(hours);
+    }
+
+
+    public static void EnsureValidOpeningHours(IEnumerable<OpeningHoursDay> existingHours, IEnumerable<OpeningHoursDay> newHours)
+    {
+        foreach (OpeningHoursDay periodToAdd in newHours)
+        {
+            foreach (OpeningHoursDay existingPeriod in existingHours)
+            {
+                if (OpeningHoursDay.Overlaps(periodToAdd, existingPeriod))
+                {
+                    throw new DomainValidationException("The hours overlap with the existing hours for this day.");
+                }
+            }
+        }
     }
 }

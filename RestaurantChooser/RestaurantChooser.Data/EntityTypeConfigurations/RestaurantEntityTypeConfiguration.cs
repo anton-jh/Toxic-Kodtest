@@ -15,7 +15,8 @@ internal class RestaurantEntityTypeConfiguration : IEntityTypeConfiguration<Rest
     {
         builder.HasKey(x => x.Id);
 
-        builder.OwnsMany(x => x.OpeningHours);
+        builder.OwnsMany(x => x.OpeningHours, y =>
+            y.HasKey("Id"));
 
         builder
             .HasMany(x => x.Tags)
