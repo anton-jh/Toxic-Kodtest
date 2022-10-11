@@ -1,9 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using RestaurantChooser.Api.Exceptions;
 using RestaurantChooser.Api.Model;
 using RestaurantChooser.Api.Services;
 using RestaurantChooser.Api.Validators;
 using RestaurantChooser.Business.Commands;
 using RestaurantChooser.Business.DataAccess;
+using RestaurantChooser.Business.Exceptions;
+using RestaurantChooser.Domain.Exceptions;
 
 namespace RestaurantChooser.Api.EndpointDefinitions;
 
@@ -36,11 +39,28 @@ internal class RestaurantEndpointDefinitions : IEndpointDefinitions
 
     public static IResult GetById([FromRoute]Guid id, [FromServices] IRestaurantService restaurantService)
     {
-        return Results.Json(restaurantService.GetById(id));
+        try
+        {
+            return Results.Json(restaurantService.GetById(id));
+        }
+        catch (EntityNotFoundException)
+        {
+            return Results.NotFound();
+        }
     }
 
     public static IResult Create([FromBody] CreateRestaurantInput input, [FromServices] IRestaurantService restaurantService)
     {
-        return Results.Json(restaurantService.Create(input));
+        try
+        {
+            return Results.Json(restaurantService.Create(input));
+        }
+        catch (NameTakenException)
+        {
+            return Results.BadRequest(new
+            {
+                Error = "Name is taken."
+            });
+        }
     }
 }
