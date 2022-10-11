@@ -1,4 +1,5 @@
-﻿using RestaurantChooser.Api.Model;
+﻿using RestaurantChooser.Api.Exceptions;
+using RestaurantChooser.Api.Model;
 using RestaurantChooser.Api.Validators;
 using RestaurantChooser.Business.Commands;
 using RestaurantChooser.Data;
@@ -28,8 +29,22 @@ public class RestaurantService : IRestaurantService
 
     public IEnumerable<RestaurantResponse> GetAll()
     {
-        return from Restaurant restaurant in _dbContext.Restaurants
+        return from Restaurant restaurant in _dbContext.Restaurants.ToList()
                select new RestaurantResponse(restaurant);
+    }
+
+    public RestaurantResponse GetById(Guid id)
+    {
+        RestaurantId restaurantId = RestaurantId.From(id);
+
+        Restaurant? restaurant = _dbContext.Restaurants.Find(restaurantId);
+
+        if (restaurant is null)
+        {
+            throw new EntityNotFoundException();
+        }
+
+        return new(restaurant);
     }
 
     public CreateRestaurantResponse Create(CreateRestaurantInput input)

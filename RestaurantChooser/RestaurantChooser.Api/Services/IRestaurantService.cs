@@ -5,4 +5,5 @@ public interface IRestaurantService
 {
     CreateRestaurantResponse Create(CreateRestaurantInput input);
     IEnumerable<RestaurantResponse> GetAll();
+    RestaurantResponse GetById(Guid id);
 }

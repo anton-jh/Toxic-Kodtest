@@ -12,6 +12,7 @@ internal class RestaurantEndpointDefinitions : IEndpointDefinitions
     public IEndpointDefinitions MapEndpoints(WebApplication app)
     {
         app.MapPost("/restaurants/create", Create);
+        app.MapGet("/restaurants/{id}", GetById);
         app.MapGet("/restaurants/", GetAll);
 
         return this;
@@ -31,6 +32,11 @@ internal class RestaurantEndpointDefinitions : IEndpointDefinitions
     public static IResult GetAll([FromServices] IRestaurantService restaurantService)
     {
         return Results.Json(restaurantService.GetAll());
+    }
+
+    public static IResult GetById([FromRoute]Guid id, [FromServices] IRestaurantService restaurantService)
+    {
+        return Results.Json(restaurantService.GetById(id));
     }
 
     public static IResult Create([FromBody] CreateRestaurantInput input, [FromServices] IRestaurantService restaurantService)
